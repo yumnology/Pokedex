@@ -10,7 +10,7 @@ function App() {
     <>
       <div>
         <a href="https://pokeapi.co" target="_blank">
-          <img src={pokeLogo} className="logo" alt="Poke logo" />
+          <img src={pokeLogo} className="logo" alt="Pokelogo" />
         </a>
       </div>
       <h1>Pokedex</h1>

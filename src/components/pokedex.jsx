@@ -13,18 +13,33 @@ export const Pokedex = () => {
 
     useEffect(()=> {
         axios.get(url).then((response) => {
-            setPokemones(response.data.results)
-            
+            // setPokemones(response.data.results)
+
+            const pokemonList = response.data.results
+            const pokemonPromises = pokemonList.map((pokemon) => {
+                return axios.get(pokemon.url)
+            })
+            Promise.all(pokemonPromises).then(pokemonResponses =>{
+                const pokemonData = pokemonResponses.map(res => {
+                    const pokemon = res.data
+                    return {
+                        ...pokemon, //los ... esparce todos los datos dentro del objeto, el equivalente es una lista en python y se le hace append
+                        image: pokemon.sprites.front_default, 
+                        sprites: pokemon.sprites
+
+                    }
+                })
+                setPokemones(pokemonData)
+            })
         })
     }, [setPokemones])
 
 
   return (
     <div>
-        {pokemones.map((pokemon, index) => {
-            console.log(index)
-            index = index + 1
-            return <Pokemon key={pokemon.id} pokemon={pokemon} id={index}/>
+        {pokemones.map((pokemon) => {
+        
+            return <Pokemon key={pokemon.id} pokemon={pokemon}/>
         }
         )}
     </div>

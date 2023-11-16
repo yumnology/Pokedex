@@ -1,13 +1,16 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Pokemon = ({pokemon, id}) => {
   
   return (
     <>
-        <h3>{pokemon.name}</h3>
-        
-        <img src={pokemon.image} style={{width:'250px', height:'auto'}} alt="" />
-        <hr />
+    
+      <figure class="figure">
+    <img src={pokemon.image} class="pokemon" />
+    <figcaption class="figure-caption">{pokemon.name}</figcaption>
+      </figure>
+     
     
     </>
   )

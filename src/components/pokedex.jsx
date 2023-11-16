@@ -1,14 +1,27 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { Pokemon } from './Pokemon'
+import db from '../firebase/firebaseConfig'
+import { collection, addDoc, getDocs} from 'firebase/firestore'
 
-// TODO: analizar documentación de pokeapi para mostrar imagen.
+
+async function getData(db) {
+    const coleccion = collection(db, 'team');
+    const documento = await getDocs(coleccion, 'principal');
+    const listaresult = documento.docs.map(doc => {
+        doc.data()
+        console.log(doc.data())
+    });
+    return listaresult;
+    
+  }
 
 
 
 export const Pokedex = () => {
     const [pokemones, setPokemones] = useState([])
-
+    const listaresult = getData(db)
+    //console.log(listaresult)
     const url = "https://pokeapi.co/api/v2/pokemon/"
 
     useEffect(()=> {
@@ -36,7 +49,8 @@ export const Pokedex = () => {
 
 
   return (
-    <div>
+    <div className="container mt-4">
+        
         {pokemones.map((pokemon) => {
         
             return <Pokemon key={pokemon.id} pokemon={pokemon}/>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { Pokemon } from './Pokemon'
 import db from '../firebase/firebaseConfig'
-import { collection, addDoc, getDocs, onSnapshot, doc, setDoc, Timestamp, updateDoc} from 'firebase/firestore'
+import { collection, addDoc, getDocs, onSnapshot, doc, updateDoc, Timestamp} from 'firebase/firestore'
 
 
 /* async function getData(db) {
@@ -28,8 +28,7 @@ export const Pokedex = () => {
     const addPokemon = (pokemon) => {  
         if (team.length < 6 && !team.includes(pokemon)){
             setTeam([...team, pokemon])
-            console.log(team) 
-            dbupdate(team) 
+            console.log(team)  
         }   
     }
 
@@ -67,14 +66,23 @@ export const Pokedex = () => {
     }, [setPokemones, page])
 
 
-    const dbupdate = (team) => {
-        setDoc(doc(db, "team", "principal"), { team })
-    }
-
-     //Get team
-     useEffect(()=>{
+    useEffect(()=> {
         
-     }, [team])
+        //TODO: add the pokemon.name and the pokemon to firebase
+            
+            
+        updateDoc(doc(db, "team", "principal"), {
+            team
+            
+            })
+    
+            
+        }, [team])
+
+
+    useEffect(()=> {
+      //this useEffect will add all the "team" "principal" pokemons to the local team.  
+    }, [])
 
   return (
     <>
@@ -110,55 +118,15 @@ export const Pokedex = () => {
 
 
 
-     //Get team
-     useEffect(() => {
-        getDoc(doc(db, "team", "principal")).then((doc) => {
-          if (doc.exists) {
-            const teamData = doc.data().team;
-            setTeam(teamData);
-          } else {
-            console.log("No such document!");
-          }
-        });
-      }, []);
-
-
-
-
-
-
-
-    //Get team
-    useEffect(() => {
-        getDoc(doc(db, "team", "principal")).then((docSnapshot) => {
-          if (docSnapshot) {
-            const teamData = docSnapshot.data();
-            setTeam(teamData);
-            console.log(teamData);
-          } else {
-            console.log("No hay nada");
-            setTeam([]);
-          }
-        });
-      }, []); // Add the 'doc' reference to the dependency array
-
-
-
-
-      aaaaa
-
-
-
-useEffect(() => {
+ useEffect(() => {
         if (team.length > 0){
             const datatosend = team.map((pokemon) => ({
                 name: pokemon.name,
                 sprite: pokemon.image,  
               }
               ));
-              const datats = Object.fromEntries(datatosend)
               console.log("datatosend", datatosend)
-            setDoc(doc(db, "team", "principal"), { datats });
+            setDoc(doc(db, "team", "principal"), { datatosend });
         } 
         
       }, [team]);

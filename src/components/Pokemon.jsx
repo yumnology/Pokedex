@@ -1,14 +1,14 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const Pokemon = ({pokemon, id}) => {
+export const Pokemon = ({pokemon, addPoke}) => {
   
   return (
     <>
     
-      <figure class="figure">
-    <img src={pokemon.image} class="pokemon" />
-    <figcaption class="figure-caption">{pokemon.name}</figcaption>
+      <figure className="figure">
+    <button onClick={addPoke}><img src={pokemon.image} className="pokemon" /></button>
+    <figcaption className="figure-caption">{pokemon.name}</figcaption>
       </figure>
      
     
